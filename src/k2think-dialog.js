@@ -81,6 +81,7 @@ class K2ThinkDialog {
         }
         
         // Проверяем на недопустимые символы для HTTP заголовков
+        // eslint-disable-next-line no-control-regex
         const invalidChars = /[\x00-\x1F\x7F]/; // Control characters
         if (invalidChars.test(cookies)) {
             console.warn('⚠️  Обнаружены недопустимые символы в cookies');

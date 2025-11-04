@@ -88,7 +88,7 @@ class CookieConverter {
         }
         
         // Имя cookie не должно содержать специальные символы
-        const invalidChars = /[\s\(\)<>@,;:\\"/\[\]?={}]/;
+        const invalidChars = /[\s()<>@,;:"/[\]?={}]/;
         if (invalidChars.test(name)) {
             return false;
         }
@@ -201,6 +201,7 @@ echo "Для проверки: echo $K2THINK_COOKIES"
         }
         
         // Проверяем на недопустимые символы для HTTP заголовков
+        // eslint-disable-next-line no-control-regex
         const invalidChars = /[\x00-\x1F\x7F]/; // Control characters
         if (invalidChars.test(cookieString)) {
             return false;

@@ -86,7 +86,7 @@
 Если вам нравится библиотека, вы можете поддержать развитие проекта:
 
 - **Email**: HEDELKA@yandex.ru
-- **TON**: `UQABR7EgocAi1K4VH3Fg4FHyhmNLC9FPoYuED3YkBJZAFelt`
+- **USDT (TON Network)**: `UQABR7EgocAi1K4VH3Fg4FHyhmNLC9FPoYuED3YkBJZAFelt`
 - **TRC20 (USDT)**: `TKSvGezbzvEz9XpKANUUZE89ej436eiqmd`
 
 Любая поддержка помогает улучшать проект! 🙏

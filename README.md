@@ -342,7 +342,7 @@ MIT License - см. [LICENSE](LICENSE) файл для деталей.
 
 Если вы хотите поддержать проект криптовалютой:
 
-- **TON**: `UQABR7EgocAi1K4VH3Fg4FHyhmNLC9FPoYuED3YkBJZAFelt`
+- **USDT (TON Network)**: `UQABR7EgocAi1K4VH3Fg4FHyhmNLC9FPoYuED3YkBJZAFelt`
 - **TRC20 (USDT)**: `TKSvGezbzvEz9XpKANUUZE89ej436eiqmd`
 
 Любая поддержка помогает развивать проект! 🙏

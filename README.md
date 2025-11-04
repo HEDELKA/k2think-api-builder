@@ -334,9 +334,18 @@ MIT License - см. [LICENSE](LICENSE) файл для деталей.
 
 ## 📞 Поддержка
 
-- 📧 Email: support@k2think.ai
-- 🐛 Issues: [GitHub Issues](https://github.com/k2think/k2think-api-builder/issues)
-- 📖 Документация: [GitHub Wiki](https://github.com/k2think/k2think-api-builder/wiki)
+- 📧 Email: HEDELKA@yandex.ru
+- 🐛 Issues: [GitHub Issues](https://github.com/HEDELKA/k2think-api-builder/issues)
+- 📖 Документация: [GitHub Wiki](https://github.com/HEDELKA/k2think-api-builder/wiki)
+
+### 💳 Криптоподдержка
+
+Если вы хотите поддержать проект криптовалютой:
+
+- **TON**: `UQABR7EgocAi1K4VH3Fg4FHyhmNLC9FPoYuED3YkBJZAFelt`
+- **TRC20 (USDT)**: `TKSvGezbzvEz9XpKANUUZE89ej436eiqmd`
+
+Любая поддержка помогает развивать проект! 🙏
 
 ## ⭐ Звезды
 

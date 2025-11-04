@@ -1,10 +1,11 @@
-# K2Think API Builder
+# 🚀 K2Think API Builder
 
 [![npm version](https://badge.fury.io/js/k2think-api-builder.svg)](https://badge.fury.io/js/k2think-api-builder)
+[![Build Status](https://github.com/HEDELKA/k2think-api-builder/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/HEDELKA/k2think-api-builder/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
 
-🚀 **Мощная библиотека для создания кастомных JSON API на основе K2Think.ai**
+**Мощный JavaScript конструктор для создания кастомных JSON API на основе K2Think.ai**
 
 Создавайте структурированные API с валидацией JSON схем, готовыми шаблонами и полной кастомизацией для ваших проектов.
 

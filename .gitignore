@@ -130,3 +130,14 @@ docs/.doctrees/
 
 # JSDoc
 jsdoc-out/
+
+# Private data and credentials
+Cookie.json
+cookies.txt
+set-cookies.sh
+*.cookies
+credentials.json
+config.json
+.env.local
+.env.production
+k2think-cookies.txt

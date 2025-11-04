@@ -8,6 +8,8 @@
     "start": "node src/api-builder.js",
     "demo": "node src/api-builder.js",
     "dialog": "node src/k2think-dialog.js",
+    "universal": "node src/universal-dialog.js",
+    "json": "node src/k2think-json-builder.js",
     "cookies": "node src/cookie-converter.js",
     "api": "node src/api-builder.js",
     "analyze": "node har-analyzer.js",

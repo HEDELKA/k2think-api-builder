@@ -1,0 +1,37 @@
+{
+  "model": "MBZUAI-IFM/K2-Think",
+  "input": [
+    {
+      "role": "system",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Ты - AI ассистент с доступом к веб-поиску. Используй актуальную информацию из интернета для ответов."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Найди информацию о последних новостях в области искусственного интеллекта"
+        }
+      ]
+    }
+  ],
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "reasoning": {},
+  "tools": [],
+  "temperature": 0.5,
+  "max_output_tokens": 2048,
+  "top_p": 1,
+  "store": true,
+  "include": [
+    "web_search_call.action.sources"
+  ]
+}

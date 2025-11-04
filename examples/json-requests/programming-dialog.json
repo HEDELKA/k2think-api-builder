@@ -1,0 +1,53 @@
+{
+  "model": "MBZUAI-IFM/K2-Think",
+  "input": [
+    {
+      "role": "system",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Ты - эксперт по программированию на JavaScript. Объясняй концепции четко и с примерами."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Что такое замыкания в JavaScript?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Замыкание (closure) - это функция вместе с лексическим окружением, в котором она была создана. Это позволяет функции доступ к переменным из внешней области видимости даже после того, как внешняя функция завершила выполнение."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Можешь привести практический пример кода?"
+        }
+      ]
+    }
+  ],
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "reasoning": {},
+  "tools": [],
+  "temperature": 0.5,
+  "max_output_tokens": 1500,
+  "top_p": 0.8,
+  "store": true,
+  "include": []
+}

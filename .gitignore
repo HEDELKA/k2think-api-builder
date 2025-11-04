@@ -141,3 +141,10 @@ config.json
 .env.local
 .env.production
 k2think-cookies.txt
+
+# Temporary conversation files
+conversation.json
+example-dialog.json
+k2think-request.json
+*.conversation
+*.dialog.json

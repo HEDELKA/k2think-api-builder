@@ -1,0 +1,11 @@
+{
+  "provider": "k2think",
+  "model": "MBZUAI-IFM/K2-Think",
+  "systemPrompt": "Ты - полезный AI ассистент. Отвечай кратко и по делу.",
+  "temperature": 0.7,
+  "maxTokens": 1024,
+  "topP": 1,
+  "stream": true,
+  "tools": [],
+  "include": ["web_search_call.action.sources"]
+}

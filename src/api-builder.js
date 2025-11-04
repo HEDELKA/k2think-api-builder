@@ -16,24 +16,83 @@ const K2ThinkDialog = require('./k2think-dialog');
 const CookieConverter = require('./cookie-converter');
 
 class CustomAPIBuilder {
-    constructor() {
+    constructor(options = {}) {
+        this.options = options || {};
         this.cookies = null;
         this.dialog = null;
+        this.aiEnabled = false;
     }
 
     async init() {
-        // Загружаем cookies
-        const converter = new CookieConverter();
-        this.cookies = converter.getCookiesFromFile() || process.env.K2THINK_COOKIES;
-        
-        if (!this.cookies) {
-            console.error('❌ Cookies не найдены. Запустите: npm run cookies');
+        try {
+            // Пропускаем загрузку cookies если указана опция
+            if (this.options.skipCookies) {
+                console.log('🔧 AI функции отключены (skipCookies=true)');
+                this.aiEnabled = false;
+                return true;
+            }
+            
+            // Загружаем cookies
+            const converter = new CookieConverter();
+            this.cookies = converter.getCookiesFromFile() || process.env.K2THINK_COOKIES;
+            
+            if (!this.cookies) {
+                console.warn('⚠️  Cookies не найдены. AI функции будут отключены.');
+                console.log('💡 Для включения AI функций запустите: npm run cookies');
+                this.aiEnabled = false;
+                return true; // Возвращаем true вместо false
+            }
+            
+            // Валидация cookies
+            if (!this.validateCookies(this.cookies)) {
+                console.warn('⚠️  Cookies невалидны. AI функции будут отключены.');
+                this.aiEnabled = false;
+                return true;
+            }
+
+            this.dialog = new K2ThinkDialog(this.cookies, 'https://www.k2think.ai', { skipCookies: false });
+            this.aiEnabled = true;
+            console.log('✅ Custom API Builder готов к работе (с AI функциями)');
+            return true;
+            
+        } catch (error) {
+            console.warn('⚠️  Ошибка инициализации AI функций:', error.message);
+            console.log('💡 Продолжаем работу без AI функций');
+            this.aiEnabled = false;
+            this.dialog = null;
+            this.cookies = null;
+            return true; // Не падаем полностью
+        }
+    }
+    
+    /**
+     * Проверка валидности cookies
+     */
+    validateCookies(cookies) {
+        if (!cookies || typeof cookies !== 'string') {
             return false;
         }
-
-        this.dialog = new K2ThinkDialog(this.cookies);
-        console.log('✅ Custom API Builder готов к работе');
+        
+        // Проверяем наличие базовой структуры
+        const hasNameValuePair = cookies.includes('=');
+        if (!hasNameValuePair) {
+            return false;
+        }
+        
+        // Проверяем на недопустимые символы для HTTP заголовков
+        const invalidChars = /[\x00-\x1F\x7F]/; // Control characters
+        if (invalidChars.test(cookies)) {
+            return false;
+        }
+        
         return true;
+    }
+    
+    /**
+     * Проверка доступны ли AI функции
+     */
+    isAIEnabled() {
+        return this.aiEnabled && this.dialog !== null;
     }
 
     /**
@@ -86,9 +145,9 @@ class CustomAPIBuilder {
             
             async execute(input, options = {}) {
                 try {
-                    // Проверяем инициализацию
-                    if (!self.dialog) {
-                        throw new Error('API Builder не инициализирован. Вызовите await init()');
+                    // Проверяем инициализацию и доступность AI
+                    if (!self.isAIEnabled()) {
+                        throw new Error('AI функции недоступны. Проверьте настройки cookies или вызовите await init()');
                     }
 
                     // Валидация
@@ -358,11 +417,28 @@ module.exports = GeneratedAPI;
 async function demo() {
     console.log('🔧 Custom API Builder - Демонстрация JSON API\n');
 
+    // Пример 1: С отключенными AI функциями
+    console.log('🔧 Пример 1: Работа без AI функций');
+    const builderNoAI = new CustomAPIBuilder({ skipCookies: true });
+    const initializedNoAI = await builderNoAI.init();
+    
+    if (initializedNoAI && !builderNoAI.isAIEnabled()) {
+        console.log('✅ Builder успешно инициализирован без AI функций');
+    }
+
+    // Пример 2: Попытка с AI функциями
+    console.log('\n🤖 Пример 2: Попытка инициализации с AI функциями');
     const builder = new CustomAPIBuilder();
     const initialized = await builder.init();
     
     if (!initialized) {
         console.log('❌ Не удалось инициализировать builder');
+        return;
+    }
+    
+    if (!builder.isAIEnabled()) {
+        console.log('⚠️  AI функции недоступны, но библиотека продолжает работать');
+        console.log('💡 Настройте cookies для включения AI функций');
         return;
     }
 

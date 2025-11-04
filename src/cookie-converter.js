@@ -48,7 +48,7 @@ class CookieConverter {
     }
 
     /**
-     * Конвертация cookies в строку формата
+     * Конвертация cookies в строку формата с валидацией
      */
     convertCookiesToString(cookies) {
         if (!Array.isArray(cookies)) {
@@ -61,13 +61,59 @@ class CookieConverter {
                 console.warn(`⚠️  Пропуск cookie без name или value: ${JSON.stringify(cookie)}`);
                 return null;
             }
-            return `${cookie.name}=${cookie.value}`;
+            
+            // Валидация имени cookie
+            if (!this.validateCookieName(cookie.name)) {
+                console.warn(`⚠️  Невалидное имя cookie: ${cookie.name}`);
+                return null;
+            }
+            
+            // Валидация и кодирование значения cookie
+            const encodedValue = this.encodeCookieValue(cookie.value);
+            return `${cookie.name}=${encodedValue}`;
         }).filter(pair => pair !== null);
 
         const cookieString = cookiePairs.join('; ');
         console.log(`✅ Сконвертировано ${cookiePairs.length} cookies в строку`);
         
         return cookieString;
+    }
+    
+    /**
+     * Валидация имени cookie
+     */
+    validateCookieName(name) {
+        if (!name || typeof name !== 'string') {
+            return false;
+        }
+        
+        // Имя cookie не должно содержать специальные символы
+        const invalidChars = /[\s\(\)<>@,;:\\"/\[\]?={}]/;
+        if (invalidChars.test(name)) {
+            return false;
+        }
+        
+        return name.length > 0 && name.length <= 4096;
+    }
+    
+    /**
+     * Кодирование значения cookie для безопасной передачи
+     */
+    encodeCookieValue(value) {
+        if (!value || typeof value !== 'string') {
+            return '';
+        }
+        
+        try {
+            // Кодируем специальные символы для HTTP заголовков
+            return encodeURIComponent(value)
+                .replace(/[!'()*]/g, function(c) {
+                    return '%' + c.charCodeAt(0).toString(16);
+                });
+        } catch (error) {
+            console.warn('⚠️  Ошибка кодирования значения cookie:', error.message);
+            return value;
+        }
     }
 
     /**
@@ -116,23 +162,51 @@ echo "Для проверки: echo $K2THINK_COOKIES"
     }
 
     /**
-     * Получение cookies из файла
+     * Получение cookies из файла с улучшенной обработкой ошибок
      */
     getCookiesFromFile() {
         try {
             if (!fs.existsSync(this.cookieTxtPath)) {
-                console.error('❌ Файл cookies.txt не найден');
-                console.log('Сначала выполните конвертацию: node cookie-converter.js');
+                // Не выводим ошибку, просто возвращаем null
                 return null;
             }
 
             const cookieString = fs.readFileSync(this.cookieTxtPath, 'utf8').trim();
-            console.log('✅ Cookies загружены из файла');
+            
+            // Проверяем валидность cookies
+            if (!this.validateCookieString(cookieString)) {
+                console.warn('⚠️  Невалидные cookies в файле');
+                return null;
+            }
+            
             return cookieString;
         } catch (error) {
-            console.error('❌ Ошибка чтения cookies.txt:', error.message);
+            console.warn('⚠️  Ошибка чтения cookies.txt:', error.message);
             return null;
         }
+    }
+    
+    /**
+     * Валидация строки cookies
+     */
+    validateCookieString(cookieString) {
+        if (!cookieString || typeof cookieString !== 'string') {
+            return false;
+        }
+        
+        // Проверяем наличие базовой структуры
+        const hasNameValuePair = cookieString.includes('=');
+        if (!hasNameValuePair) {
+            return false;
+        }
+        
+        // Проверяем на недопустимые символы для HTTP заголовков
+        const invalidChars = /[\x00-\x1F\x7F]/; // Control characters
+        if (invalidChars.test(cookieString)) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**

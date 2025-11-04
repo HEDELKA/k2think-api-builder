@@ -15,9 +15,18 @@ const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 
 class K2ThinkDialog {
-    constructor(cookies, baseUrl = 'https://www.k2think.ai') {
+    constructor(cookies, baseUrl = 'https://www.k2think.ai', options = {}) {
         this.baseUrl = baseUrl;
-        this.cookies = cookies;
+        this.options = options || {};
+        
+        // Если cookies не предоставлены и опция skipCookies не установлена
+        if (!cookies && !options.skipCookies) {
+            throw new Error('Cookies обязательны для K2ThinkDialog');
+        }
+        
+        // Кодируем cookies для безопасной передачи в HTTP заголовках
+        this.cookies = cookies ? this.encodeCookies(cookies) : null;
+        
         this.headers = {
             'Content-Type': 'application/json',
             'Accept': 'text/event-stream',
@@ -31,6 +40,54 @@ class K2ThinkDialog {
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-origin'
         };
+    }
+    
+    /**
+     * Кодирование cookies для безопасной передачи в HTTP заголовках
+     */
+    encodeCookies(cookies) {
+        try {
+            // Разделяем cookies на пары name=value
+            const cookiePairs = cookies.split(';').map(pair => pair.trim());
+            
+            const encodedPairs = cookiePairs.map(pair => {
+                const [name, ...valueParts] = pair.split('=');
+                if (!name || valueParts.length === 0) return pair;
+                
+                const value = valueParts.join('=');
+                // Кодируем только значение, оставляя имя как есть
+                return `${name}=${encodeURIComponent(value)}`;
+            });
+            
+            return encodedPairs.join('; ');
+        } catch (error) {
+            console.warn('⚠️  Ошибка кодирования cookies, используем оригинал:', error.message);
+            return cookies;
+        }
+    }
+    
+    /**
+     * Проверка валидности cookies
+     */
+    validateCookies(cookies) {
+        if (!cookies || typeof cookies !== 'string') {
+            return false;
+        }
+        
+        // Проверяем наличие базовой структуры
+        const hasNameValuePair = cookies.includes('=');
+        if (!hasNameValuePair) {
+            return false;
+        }
+        
+        // Проверяем на недопустимые символы для HTTP заголовков
+        const invalidChars = /[\x00-\x1F\x7F]/; // Control characters
+        if (invalidChars.test(cookies)) {
+            console.warn('⚠️  Обнаружены недопустимые символы в cookies');
+            return false;
+        }
+        
+        return true;
     }
 
     /**

@@ -41,12 +41,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/k2think/k2think-api-builder.git"
+    "url": "https://github.com/HEDELKA/k2think-api-builder.git"
   },
   "bugs": {
-    "url": "https://github.com/k2think/k2think-api-builder/issues"
+    "url": "https://github.com/HEDELKA/k2think-api-builder/issues"
   },
-  "homepage": "https://github.com/k2think/k2think-api-builder#readme",
+  "homepage": "https://github.com/HEDELKA/k2think-api-builder#readme",
   "engines": {
     "node": ">=14.0.0"
   },

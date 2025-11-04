@@ -258,7 +258,11 @@ class K2ThinkDialog {
                 });
 
                 res.on('end', () => {
-                    resolve(fullText);
+                    // Возвращаем объект с id чата и текстом ответа
+                    resolve({
+                        id: chatId,
+                        response: fullText
+                    });
                 });
             });
 
@@ -370,32 +374,32 @@ async function demo() {
         console.log('\n📝 Ответ 1:');
         console.log(response1);
 
-        const response2 = await dialog.sendMessage(response1.chatId, 'Расскажи о себе');
+        const response2 = await dialog.sendMessage(response1.id, 'Расскажи о себе');
         console.log('\n📝 Ответ 2:');
-        console.log(response2);
+        console.log(response2.response);
 
-        const response3 = await dialog.sendMessage(response2.chatId, 'Что ты умеешь?');
+        const response3 = await dialog.sendMessage(response2.id, 'Что ты умеешь?');
         console.log('\n📝 Ответ 3:');
-        console.log(response3);
+        console.log(response3.response);
 
-        const response4 = await dialog.sendMessage(response3.chatId, 'Помоги мне с задачей');
+        const response4 = await dialog.sendMessage(response3.id, 'Помоги мне с задачей');
         console.log('\n📝 Ответ 4:');
-        console.log(response4);
+        console.log(response4.response);
 
-        const response5 = await dialog.sendMessage(response4.chatId, 'Спасибо за помощь!');
+        const response5 = await dialog.sendMessage(response4.id, 'Спасибо за помощь!');
         console.log('\n📝 Ответ 5:');
-        console.log(response5);
+        console.log(response5.response);
         console.log('\n');
 
         // Итоговый вопрос
         console.log('💬 Вопрос: Сделай краткое резюме обо мне');
         console.log('🤖 Ответ: ');
-        const summaryResponse = await dialog.sendMessage(response5.chatId, 'Сделай краткое резюме обо мне на основе нашего разговора');
-        console.log(summaryResponse);
+        const summaryResponse = await dialog.sendMessage(response5.id, 'Сделай краткое резюме обо мне на основе нашего разговора');
+        console.log(summaryResponse.response);
         console.log('\n');
 
         // Получаем финальную информацию о чате
-        const chatInfo = await dialog.getChat(response5.chatId);
+        const chatInfo = await dialog.getChat(response5.id);
         console.log('📊 Статистика чата:');
         console.log(`💬 Всего сообщений: ${chatInfo.chat.messages.length}`);
         console.log(`📋 Заголовок: ${chatInfo.title}`);

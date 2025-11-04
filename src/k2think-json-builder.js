@@ -13,7 +13,6 @@
 
 const https = require('https');
 const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
 
 class K2ThinkJsonBuilder {
     constructor(cookies, baseUrl = 'https://www.k2think.ai') {
@@ -343,7 +342,7 @@ async function demo() {
         request1 = builder.addSystemMessage(request1, 'Ты - полезный AI ассистент');
         request1 = builder.addUserMessage(request1, 'Привет! Как дела?');
         
-        const response1 = await builder.sendRequest(request1);
+        await builder.sendRequest(request1);
         console.log('\n✅ Ответ получен\n');
         
         // Пример 2: Полный диалог
@@ -363,7 +362,7 @@ async function demo() {
         
         builder.saveRequest(request2, 'example-dialog.json');
         
-        const response2 = await builder.sendRequest(request2);
+        await builder.sendRequest(request2);
         console.log('\n✅ Диалог завершен\n');
         
         // Пример 3: Кастомный JSON
@@ -377,7 +376,7 @@ async function demo() {
             max_tokens: 2048
         });
         
-        const response3 = await builder.sendRequest(request3);
+        await builder.sendRequest(request3);
         console.log('\n✅ Запрос с веб-поиском завершен\n');
         
         console.log('🎉 Все примеры успешно выполнены!');

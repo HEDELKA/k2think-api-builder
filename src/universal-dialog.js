@@ -15,8 +15,6 @@
 
 const https = require('https');
 const fs = require('fs');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 
 class UniversalDialog {
     constructor(config = {}) {
@@ -176,7 +174,7 @@ class UniversalDialog {
      * Отправить сообщение и получить ответ
      */
     async sendMessage(message, options = {}) {
-        const opts = { ...this.config, ...options };
+        this.config = { ...this.config, ...options };
         
         this.addMessage('user', message);
         

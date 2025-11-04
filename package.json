@@ -1,6 +1,6 @@
 {
   "name": "k2think-api-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Библиотека для создания кастомных JSON API на основе K2Think.ai",
   "main": "src/index.js",
   "type": "commonjs",
